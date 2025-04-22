@@ -1,8 +1,6 @@
 # TIKOS
-Technical Assessment
 
-```markdown
-# TIKOS
+**Technical Assessment**
 
 > A microservices-based “creature” data aggregator: ingests Pokémon and Rick & Morty characters, processes and stores them in Postgres, and exposes a FastAPI service.
 
@@ -13,13 +11,13 @@ Technical Assessment
 3. [Architecture](#architecture)  
 4. [Installation](#installation)  
 5. [Usage](#usage)  
-   - [Docker Compose](#docker-compose)  
+   - [Docker Compose](#docker-compose)  
    - [Local Development](#local-development)  
 6. [API](#api)  
 7. [Configuration](#configuration)  
 8. [Contributing](#contributing)  
 9. [License](#license)  
-10. [Contact](#contact)  
+
 
 ---
 
