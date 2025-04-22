@@ -1,0 +1,90 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER:     pguser
+      POSTGRES_PASSWORD: pgpass
+      POSTGRES_DB:       creatures
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+
+  zookeeper:
+    image: bitnami/zookeeper:3.8
+    restart: always
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: bitnami/kafka:3.5
+    restart: always
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID:             "1"
+      KAFKA_ZOOKEEPER_CONNECT:     "zookeeper:2181"
+      ALLOW_PLAINTEXT_LISTENER:    "yes"
+      KAFKA_LISTENERS:             "PLAINTEXT://0.0.0.0:9092"
+      KAFKA_ADVERTISED_LISTENERS:  "PLAINTEXT://kafka:9092"
+    ports:
+      - "9092:9092"
+
+  ingestor_rest:
+    build:
+      context: ./ingestor_rest
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      POLL_INTERVAL:          "60"
+    restart: on-failure
+
+  ingestor_gql:
+    build:
+      context: ./ingestor_gql
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      POLL_INTERVAL:          "60"
+    restart: on-failure
+
+  processor:
+    build:
+      context: ./processor
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka
+      - postgres
+    environment:
+      DATABASE_URL:            postgresql+asyncpg://pguser:pgpass@postgres:5432/creatures
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    restart: on-failure
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://pguser:pgpass@postgres:5432/creatures
+      REDIS_URL:     redis://redis:6379
+    restart: on-failure
