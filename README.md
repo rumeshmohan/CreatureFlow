@@ -8,15 +8,13 @@
 
 1. [About](#about)  
 2. [Features](#features)  
-3. [Architecture](#architecture)  
-4. [Installation](#installation)  
-5. [Usage](#usage)  
+3. [Installation](#installation)  
+4. [Usage](#usage)  
    - [Docker Compose](#docker-compose)  
    - [Local Development](#local-development)  
-6. [API](#api)  
-7. [Configuration](#configuration)  
-8. [Contributing](#contributing)  
-9. [License](#license)  
+5. [API](#api)  
+6. [Configuration](#configuration)  
+7. [License](#license)  
 
 
 ---
@@ -37,16 +35,6 @@ TIKOS’s **creature‑aggregator** suite ingests data from two public APIs (Pok
 - **Processor**: consumes both `raw-pokemon` and `raw-characters`, computes “power” for Pokémon, writes into Postgres tables  
 - **API**: FastAPI service exposing CRUD‑style endpoints in `api/`  
 - **Persistence**: Postgres for storage, Redis for caching, Kafka for messaging, Alembic for migrations  
-
-## Architecture
-
-```text
-[ GraphQL API ] → ingestor_gql → ┐
-                               ├─ Kafka ──> processor ──> Postgres
-[ REST API     ] → ingestor_rest →┘
-                                         ↘ Redis cache
-                                             ↘ FastAPI server
-```
 
 - **Postgres**: stores `pokemon` & `rick_morty_char` tables  
 - **Redis**: optional caching layer for API  
