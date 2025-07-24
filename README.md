@@ -1,6 +1,6 @@
 # TIKOS
 
-**Technical Assessment**
+**CreatureFlow**
 
 > A microservices-based “creature” data aggregator: ingests Pokémon and Rick & Morty characters, processes and stores them in Postgres, and exposes a FastAPI service.
 
@@ -53,11 +53,9 @@ TIKOS’s **creature‑aggregator** suite ingests data from two public APIs (Pok
 ### Clone the repo
 
 ```bash
-git clone https://github.com/rumeshmohan/TIKOS.git
-cd TIKOS/creature-aggregator
+git clone https://github.com/rumeshmohan/CreatureFlow.git
+cd CreatureFlow/creature-aggregator
 ```
-
----
 
 ## Usage
 
