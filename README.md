@@ -1,4 +1,4 @@
-# TIKOS
+# CreatureFlow 
 
 **CreatureFlow**
 
@@ -21,7 +21,7 @@
 
 ## About
 
-TIKOS’s **creature‑aggregator** suite ingests data from two public APIs (PokéAPI and Rick & Morty GraphQL), streams raw items into Kafka, processes them into structured tables, and serves them via a FastAPI endpoint. It demonstrates:
+CreatureFlow ingests data from two public APIs (PokéAPI and Rick & Morty GraphQL), streams raw items into Kafka, processes them into structured tables, and serves them via a FastAPI endpoint. It demonstrates:
 
 - Async data ingestion (REST & GraphQL)  
 - Kafka-based message pipelines  
